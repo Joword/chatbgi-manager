@@ -1,0 +1,5 @@
+[github.com/Joword/chatbgi-manager]2023/04/14 - 09:44:30.846	[34minfo[0m	D:/BGIproject/chatbgi-manager/initialize/router.go:39	register swagger handler
+[github.com/Joword/chatbgi-manager]2023/04/14 - 09:44:30.877	[34minfo[0m	D:/BGIproject/chatbgi-manager/initialize/router.go:76	router register success
+[github.com/Joword/chatbgi-manager]2023/04/14 - 09:44:30.879	[34minfo[0m	D:/BGIproject/chatbgi-manager/core/server.go:36	server run success on 	{"address": ":8888"}
+[github.com/Joword/chatbgi-manager]2023/04/14 - 10:27:47.336	[34minfo[0m	D:/BGIproject/chatbgi-manager/initialize/router.go:39	register swagger handler
+[github.com/Joword/chatbgi-manager]2023/04/14 - 10:27:47.373	[34minfo[0m	D:/BGIproject/chatbgi-manager/initialize/router.go:76	router register success
