@@ -3,17 +3,16 @@ package initialize
 import (
 	"net/http"
 
-	"github.com/Joword/chatbgi-manager/docs"
+	docs "github.com/Joword/chatbgi-manager/docs"
 	"github.com/Joword/chatbgi-manager/global"
 	"github.com/Joword/chatbgi-manager/middleware"
 	"github.com/Joword/chatbgi-manager/router"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 // 初始化总路由
-
 func Routers() *gin.Engine {
 	Router := gin.Default()
 	InstallPlugin(Router) // 安装插件

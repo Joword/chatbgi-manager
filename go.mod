@@ -30,6 +30,7 @@ require (
 	github.com/songzhibin97/gkit v1.2.7
 	github.com/spf13/viper v1.7.0
 	github.com/stretchr/testify v1.7.1
+	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.7.0
 	github.com/tencentyun/cos-go-sdk-v5 v0.7.19
@@ -39,6 +40,8 @@ require (
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/text v0.3.7
 	gorm.io/driver/mysql v1.3.3
+	gorm.io/driver/postgres v1.3.4
+	gorm.io/driver/sqlserver v1.3.2
 	gorm.io/gorm v1.23.4
 	nhooyr.io/websocket v1.8.7
 )
@@ -120,8 +123,6 @@ require (
 	gopkg.in/ini.v1 v1.55.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0 // indirect
-	gorm.io/driver/postgres v1.3.4 // indirect
-	gorm.io/driver/sqlserver v1.3.2 // indirect
 	gorm.io/plugin/dbresolver v1.1.0 // indirect
 	modernc.org/libc v1.15.1 // indirect
 	modernc.org/mathutil v1.4.1 // indirect
