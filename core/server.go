@@ -41,8 +41,8 @@ func RunServer() {
 	fmt.Printf(`
 	欢迎使用 ChatBGI-manager
 	当前版本: `+version+`
-	默认自动化文档地址:http://127.0.0.1%s/swagger/index.html
-	默认前端文件运行地址:http://127.0.0.1:8080
+	默认自动化文档地址:http://127.0.0.1/swagger/index.html
+	默认前端文件运行地址:http://127.0.0.1:9527
 `, address)
 	global.GVA_LOG.Error(s.ListenAndServe().Error())
 }
