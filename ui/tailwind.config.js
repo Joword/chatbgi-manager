@@ -1,10 +1,10 @@
 module.exports = {
-  // darkMode: 'class',
+  //   content: {
+  //     enable: process.env.NODE_ENV === 'production',
+  //     content: ['./src/**/*.{vue,ts,tsx}', './index.html'],
+  //   },
+  content: ['./src/**/*.{vue,ts,tsx}', './index.html'],
   plugins: [createEnterPlugin()],
-  content: {
-    enable: process.env.NODE_ENV === 'production',
-    content: ['./index.html', './src/**/*.{vue,ts,tsx}'],
-  },
   corePlugins: {
     preflight: false,
   },
@@ -16,7 +16,6 @@ module.exports = {
       colors: {
         primary: {
           DEFAULT: '#0960bd',
-          // dark: primaryColorDark,
         },
       },
       screens: {
