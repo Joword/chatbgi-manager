@@ -1,4 +1,4 @@
-module chatbgi-manager
+module github.com/Joword/chatbgi-manager
 
 go 1.20
 

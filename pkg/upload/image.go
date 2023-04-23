@@ -8,10 +8,10 @@ import (
 	"path"
 	"strings"
 
-	"github.com/EDDYCJY/go-gin-example/pkg/file"
-	"github.com/EDDYCJY/go-gin-example/pkg/logging"
-	"github.com/EDDYCJY/go-gin-example/pkg/setting"
-	"github.com/EDDYCJY/go-gin-example/pkg/util"
+	"github.com/Joword/chatbgi-manager/pkg/file"
+	"github.com/Joword/chatbgi-manager/pkg/logging"
+	"github.com/Joword/chatbgi-manager/pkg/setting"
+	"github.com/Joword/chatbgi-manager/pkg/util"
 )
 
 // GetImageFullUrl get the full access path

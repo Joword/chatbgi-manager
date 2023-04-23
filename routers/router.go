@@ -5,16 +5,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/EDDYCJY/go-gin-example/docs"
-	"github.com/swaggo/gin-swagger"
+	_ "github.com/Joword/chatbgi-manager/docs"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
-	"github.com/EDDYCJY/go-gin-example/middleware/jwt"
-	"github.com/EDDYCJY/go-gin-example/pkg/export"
-	"github.com/EDDYCJY/go-gin-example/pkg/qrcode"
-	"github.com/EDDYCJY/go-gin-example/pkg/upload"
-	"github.com/EDDYCJY/go-gin-example/routers/api"
-	"github.com/EDDYCJY/go-gin-example/routers/api/v1"
+	"github.com/Joword/chatbgi-manager/middleware/jwt"
+	"github.com/Joword/chatbgi-manager/pkg/export"
+	"github.com/Joword/chatbgi-manager/pkg/qrcode"
+	"github.com/Joword/chatbgi-manager/pkg/upload"
+	"github.com/Joword/chatbgi-manager/routers/api"
+	v1 "github.com/Joword/chatbgi-manager/routers/api/v1"
 )
 
 // InitRouter initialize routing information

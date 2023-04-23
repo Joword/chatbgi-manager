@@ -5,10 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/EDDYCJY/go-gin-example/pkg/app"
-	"github.com/EDDYCJY/go-gin-example/pkg/e"
-	"github.com/EDDYCJY/go-gin-example/pkg/logging"
-	"github.com/EDDYCJY/go-gin-example/pkg/upload"
+	"github.com/Joword/chatbgi-manager/pkg/app"
+	"github.com/Joword/chatbgi-manager/pkg/e"
+	"github.com/Joword/chatbgi-manager/pkg/logging"
+	"github.com/Joword/chatbgi-manager/pkg/upload"
 )
 
 // @Summary Import Image
