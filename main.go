@@ -7,12 +7,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/EDDYCJY/go-gin-example/models"
-	"github.com/EDDYCJY/go-gin-example/pkg/gredis"
-	"github.com/EDDYCJY/go-gin-example/pkg/logging"
-	"github.com/EDDYCJY/go-gin-example/pkg/setting"
-	"github.com/EDDYCJY/go-gin-example/pkg/util"
-	"github.com/EDDYCJY/go-gin-example/routers"
+	"github.com/Joword/chatbgi-manager/models"
+	"github.com/Joword/chatbgi-manager/pkg/gredis"
+	"github.com/Joword/chatbgi-manager/pkg/logging"
+	"github.com/Joword/chatbgi-manager/pkg/setting"
+	"github.com/Joword/chatbgi-manager/pkg/util"
+	"github.com/Joword/chatbgi-manager/routers"
 )
 
 func init() {
@@ -28,7 +28,7 @@ func init() {
 // @description An example of gin
 // @termsOfService https://github.com/EDDYCJY/go-gin-example
 // @license.name MIT
-// @license.url https://github.com/EDDYCJY/go-gin-example/blob/master/LICENSE
+// @license.url https://github.com/Joword/chatbgi-manager/blob/master/LICENSE
 func main() {
 	gin.SetMode(setting.ServerSetting.RunMode)
 
