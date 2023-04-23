@@ -1,29 +1,66 @@
 package main
 
 import (
-	"go.uber.org/zap"
+	"fmt"
+	"log"
+	"net/http"
 
-	"github.com/Joword/chatbgi-manager/core"
-	"github.com/Joword/chatbgi-manager/global"
-	"github.com/Joword/chatbgi-manager/initialize"
+	"github.com/gin-gonic/gin"
+
+	"github.com/EDDYCJY/go-gin-example/models"
+	"github.com/EDDYCJY/go-gin-example/pkg/gredis"
+	"github.com/EDDYCJY/go-gin-example/pkg/logging"
+	"github.com/EDDYCJY/go-gin-example/pkg/setting"
+	"github.com/EDDYCJY/go-gin-example/pkg/util"
+	"github.com/EDDYCJY/go-gin-example/routers"
 )
 
-//go:generate go env -w GO111MODULE=on
-//go:generate go env -w GOPROXY=https://goproxy.cn,direct
-//go:generate go mod tidy
-//go:generate go mod download
+func init() {
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+	gredis.Setup()
+	util.Setup()
+}
+
+// @title Golang Gin API
+// @version 1.0
+// @description An example of gin
+// @termsOfService https://github.com/EDDYCJY/go-gin-example
+// @license.name MIT
+// @license.url https://github.com/EDDYCJY/go-gin-example/blob/master/LICENSE
 func main() {
-	global.GVA_VP = core.Viper()
-	initialize.OtherInit()
-	global.GVA_LOG = core.Zap()
-	zap.ReplaceGlobals(global.GVA_LOG)
-	global.GVA_DB = initialize.Gorm()
-	initialize.Timer()
-	initialize.DBList()
-	if global.GVA_DB != nil {
-		initialize.RegisterTables()
-		db, _ := global.GVA_DB.DB()
-		defer db.Close()
+	gin.SetMode(setting.ServerSetting.RunMode)
+
+	routersInit := routers.InitRouter()
+	readTimeout := setting.ServerSetting.ReadTimeout
+	writeTimeout := setting.ServerSetting.WriteTimeout
+	endPoint := fmt.Sprintf(":%d", setting.ServerSetting.HttpPort)
+	maxHeaderBytes := 1 << 20
+
+	server := &http.Server{
+		Addr:           endPoint,
+		Handler:        routersInit,
+		ReadTimeout:    readTimeout,
+		WriteTimeout:   writeTimeout,
+		MaxHeaderBytes: maxHeaderBytes,
 	}
-	core.RunServer()
+
+	log.Printf("[info] start http server listening %s", endPoint)
+
+	server.ListenAndServe()
+
+	// If you want Graceful Restart, you need a Unix system and download github.com/fvbock/endless
+	//endless.DefaultReadTimeOut = readTimeout
+	//endless.DefaultWriteTimeOut = writeTimeout
+	//endless.DefaultMaxHeaderBytes = maxHeaderBytes
+	//server := endless.NewServer(endPoint, routersInit)
+	//server.BeforeBegin = func(add string) {
+	//	log.Printf("Actual pid is %d", syscall.Getpid())
+	//}
+	//
+	//err := server.ListenAndServe()
+	//if err != nil {
+	//	log.Printf("Server err: %v", err)
+	//}
 }
