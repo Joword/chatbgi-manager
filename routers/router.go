@@ -10,8 +10,11 @@ import (
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 	"github.com/Joword/chatbgi-manager/middleware/jwt"
+	"github.com/Joword/chatbgi-manager/pkg/app"
+	"github.com/Joword/chatbgi-manager/pkg/e"
 	"github.com/Joword/chatbgi-manager/pkg/export"
 	"github.com/Joword/chatbgi-manager/pkg/qrcode"
+	"github.com/Joword/chatbgi-manager/pkg/setting"
 	"github.com/Joword/chatbgi-manager/pkg/upload"
 	"github.com/Joword/chatbgi-manager/routers/api"
 	v1 "github.com/Joword/chatbgi-manager/routers/api/v1"
@@ -20,17 +23,30 @@ import (
 // InitRouter initialize routing information
 func InitRouter() *gin.Engine {
 	r := gin.New()
+
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+
+	// 测试连接 & 接口文档
+	onLinePublic := r.Group(setting.AppSetting.PrefixUrl)
+	{
+		onLinePublic.GET("/test", func(c *gin.Context) {
+			appC := app.Gin{C: c}
+			appC.Response(http.StatusOK, e.SUCCESS, "已连接")
+		})
+		onLinePublic.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
+
+	r.POST("/authority", api.Authority)
 
 	r.StaticFS("/export", http.Dir(export.GetExcelFullPath()))
 	r.StaticFS("/upload/images", http.Dir(upload.GetImageFullPath()))
 	r.StaticFS("/qrcode", http.Dir(qrcode.GetQrCodeFullPath()))
 
 	r.POST("/auth", api.GetAuth)
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/upload", api.UploadImage)
 
+	// key
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(jwt.JWT())
 	{

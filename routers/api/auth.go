@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/astaxie/beego/validation"
@@ -31,6 +32,7 @@ func GetAuth(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password")
 
+	fmt.Println(username + " | " + password)
 	a := auth{Username: username, Password: password}
 	ok, _ := valid.Valid(&a)
 
@@ -41,14 +43,9 @@ func GetAuth(c *gin.Context) {
 	}
 
 	authService := auth_service.Auth{Username: username, Password: password}
-	isExist, err := authService.Check()
-	if err != nil {
+	checks := authService.Check()
+	if checks != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_AUTH_CHECK_TOKEN_FAIL, nil)
-		return
-	}
-
-	if !isExist {
-		appG.Response(http.StatusUnauthorized, e.ERROR_AUTH, nil)
 		return
 	}
 
@@ -61,4 +58,37 @@ func GetAuth(c *gin.Context) {
 	appG.Response(http.StatusOK, e.SUCCESS, map[string]string{
 		"token": token,
 	})
+}
+
+func Authority(c *gin.Context) {
+	appC := app.Gin{C: c}
+	// valid := validation.Validation{}
+	username := c.PostForm("username")
+	password := c.PostForm("password")
+	// authForm := auth{Username: username, Password: password}
+	// ok, _ := valid.Valid(&authForm)
+
+	authService := auth_service.Auth{Username: username, Password: password}
+	checks := authService.Check()
+	if checks != nil {
+		// appC.Response(http.StatusInternalServerError, e.ERROR_AUTH_CHECK_TOKEN_FAIL, nil)
+		hash, err := util.HashedPassword(password)
+		if err != nil {
+			return
+		}
+		isVerified := util.ComparePasswords(checks[len(checks)-1].HashedPassword, hash)
+		fmt.Println(checks[len(checks)-1].HashedPassword, hash, isVerified)
+		return
+	}
+
+	token, err := util.GenerateToken(username, password)
+	if err != nil {
+		appC.Response(http.StatusInternalServerError, e.ERROR_AUTH_TOKEN, nil)
+		return
+	}
+
+	appC.Response(http.StatusOK, e.SUCCESS, map[string]string{
+		"token": token,
+	})
+
 }

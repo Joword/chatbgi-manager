@@ -57,21 +57,22 @@ export const useUserStore = defineStore({
     },
     // 登录
     async login(userInfo) {
-      try {
+        try {
         const response = await login(userInfo);
         const { result, code } = response;
+        console.log(response)
         if (code === ResultEnum.SUCCESS) {
-          const ex = 7 * 24 * 60 * 60;
-          storage.set(ACCESS_TOKEN, result.token, ex);
-          storage.set(CURRENT_USER, result, ex);
-          storage.set(IS_LOCKSCREEN, false);
-          this.setToken(result.token);
-          this.setUserInfo(result);
+            const ex = 7 * 24 * 60 * 60;
+            storage.set(ACCESS_TOKEN, result.token, ex);
+            storage.set(CURRENT_USER, result, ex);
+            storage.set(IS_LOCKSCREEN, false);
+            this.setToken(result.token);
+            this.setUserInfo(result);
         }
         return Promise.resolve(response);
-      } catch (e) {
+        } catch (e) {
         return Promise.reject(e);
-      }
+        }
     },
 
     // 获取用户信息

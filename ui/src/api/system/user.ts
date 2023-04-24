@@ -26,9 +26,10 @@ export function getUserInfo() {
  * @description: 用户登录
  */
 export function login(params) {
+    console.log(params)
   return http.request<BasicResponseModel>(
     {
-      url: '/login',
+      url: '/auth',
       method: 'POST',
       params,
     },

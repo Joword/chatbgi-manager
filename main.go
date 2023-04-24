@@ -26,9 +26,9 @@ func init() {
 // @title Golang Gin API
 // @version 1.0
 // @description An example of gin
-// @termsOfService https://github.com/EDDYCJY/go-gin-example
+// @termsOfService https://github.com/Joword/chatbgi-manager
 // @license.name MIT
-// @license.url https://github.com/Joword/chatbgi-manager/blob/master/LICENSE
+// @license.url https://github.com/Joword/chatbgi-manager/LICENSE
 func main() {
 	gin.SetMode(setting.ServerSetting.RunMode)
 

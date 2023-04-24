@@ -7,6 +7,6 @@ type Auth struct {
 	Password string
 }
 
-func (a *Auth) Check() (bool, error) {
+func (a *Auth) Check() []models.UserMessage {
 	return models.CheckAuth(a.Username, a.Password)
 }
