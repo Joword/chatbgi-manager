@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { isNavigationFailure, Router } from 'vue-router';
-import { useUserStoreWidthOut } from '@/store/modules/user';
-import { useAsyncRouteStoreWidthOut } from '@/store/modules/asyncRoute';
+import { useUser } from '@/store/modules/user';
+import { useAsyncRoute } from '@/store/modules/asyncRoute';
 import { ACCESS_TOKEN } from '@/store/mutation-types';
 import { storage } from '@/utils/Storage';
 import { PageEnum } from '@/enums/pageEnum';
@@ -12,8 +12,8 @@ const LOGIN_PATH = PageEnum.BASE_LOGIN;
 const whitePathList = [LOGIN_PATH]; // no redirect whitelist
 
 export function createRouterGuards(router: Router) {
-  const userStore = useUserStoreWidthOut();
-  const asyncRouteStore = useAsyncRouteStoreWidthOut();
+  const userStore = useUser();
+  const asyncRouteStore = useAsyncRoute();
   router.beforeEach(async (to, from, next) => {
     const Loading = window['$loading'] || null;
     Loading && Loading.start();
@@ -51,13 +51,39 @@ export function createRouterGuards(router: Router) {
       return;
     }
 
-    if (asyncRouteStore.getIsDynamicAddedRoute) {
+    if (asyncRouteStore.getIsDynamicRouteAdded) {
       next();
       return;
     }
-
-    const userInfo = await userStore.GetInfo();
-
+    const userInfo = {
+        userId: '1',
+        username: 'admin',
+        realName: 'Admin',
+        desc: 'manager',
+        token,
+        permissions: [
+          {
+            label: '主控台',
+            value: 'dashboard_console',
+          },
+          {
+            label: '监控页',
+            value: 'dashboard_monitor',
+          },
+          {
+            label: '工作台',
+            value: 'dashboard_workplace',
+          },
+          {
+            label: '基础列表',
+            value: 'basic_list',
+          },
+          {
+            label: '基础列表删除',
+            value: 'basic_list_delete',
+          },
+        ],
+      };
     const routes = await asyncRouteStore.generateRoutes(userInfo);
 
     // 动态添加可访问路由表
@@ -74,7 +100,7 @@ export function createRouterGuards(router: Router) {
     const redirectPath = (from.query.redirect || to.path) as string;
     const redirect = decodeURIComponent(redirectPath);
     const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-    asyncRouteStore.setDynamicAddedRoute(true);
+    asyncRouteStore.setDynamicRouteAdded(true);
     next(nextData);
     Loading && Loading.finish();
   });
@@ -84,7 +110,7 @@ export function createRouterGuards(router: Router) {
     if (isNavigationFailure(failure)) {
       //console.log('failed navigation', failure)
     }
-    const asyncRouteStore = useAsyncRouteStoreWidthOut();
+    const asyncRouteStore = useAsyncRoute();
     // 在这里设置需要缓存的组件名称
     const keepAliveComponents = asyncRouteStore.keepAliveComponents;
     const currentComName: any = to.matched.find((item) => item.name == to.name)?.name;

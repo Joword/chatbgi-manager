@@ -44,7 +44,7 @@ func GetAuth(c *gin.Context) {
 
 	authService := auth_service.Auth{Username: username, Password: password}
 	checks := authService.Check()
-	if checks != nil {
+	if checks != false {
 		appG.Response(http.StatusInternalServerError, e.ERROR_AUTH_CHECK_TOKEN_FAIL, nil)
 		return
 	}
@@ -63,21 +63,16 @@ func GetAuth(c *gin.Context) {
 func Authority(c *gin.Context) {
 	appC := app.Gin{C: c}
 	// valid := validation.Validation{}
-	username := c.PostForm("username")
-	password := c.PostForm("password")
-	// authForm := auth{Username: username, Password: password}
+	json := auth{}
+	c.BindJSON(&json)
+	username := json.Username
+	password := json.Password
 	// ok, _ := valid.Valid(&authForm)
 
 	authService := auth_service.Auth{Username: username, Password: password}
 	checks := authService.Check()
-	if checks != nil {
-		// appC.Response(http.StatusInternalServerError, e.ERROR_AUTH_CHECK_TOKEN_FAIL, nil)
-		hash, err := util.HashedPassword(password)
-		if err != nil {
-			return
-		}
-		isVerified := util.ComparePasswords(checks[len(checks)-1].HashedPassword, hash)
-		fmt.Println(checks[len(checks)-1].HashedPassword, hash, isVerified)
+	if !checks {
+		appC.Response(http.StatusProxyAuthRequired, e.ERROR_AUTH, nil)
 		return
 	}
 
@@ -90,5 +85,4 @@ func Authority(c *gin.Context) {
 	appC.Response(http.StatusOK, e.SUCCESS, map[string]string{
 		"token": token,
 	})
-
 }

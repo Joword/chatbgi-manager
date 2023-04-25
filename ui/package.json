@@ -1,20 +1,31 @@
 {
-  "name": "chatbgi-manager",
-  "version": "1.0.0",
+  "name": "naive-ui-admin",
+  "version": "1.8.2",
   "author": {
-    "name": "Joword",
-    "email": "mengjunhua@bgi.com",
-    "url": "https://github.com/Joword/chatbgi-manager.git"
+    "name": "Ahjung",
+    "email": "735878602@qq.com",
+    "url": "https://github.com/jekip/naive-ui-admin"
   },
   "private": true,
   "scripts": {
+    "bootstrap": "yarn install",
     "serve": "npm run dev",
     "dev": "vite",
     "build": "vite build && esno ./build/script/postBuild.ts",
     "build:no-cache": "yarn clean:cache && npm run build",
+    "report": "cross-env REPORT=true npm run build",
     "preview": "npm run build && vite preview",
     "preview:dist": "vite preview",
-    "build typecheck": "vuedx-typecheck . && vite build"
+    "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
+    "clean:lib": "rimraf node_modules",
+    "build typecheck": "vuedx-typecheck . && vite build",
+    "deploy": "gh-pages -d dist",
+    "lint:eslint": "eslint \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
+    "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:stylelint": "stylelint --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
+    "lint:pretty": "pretty-quick --staged",
+    "test prod gzip": "http-server dist --cors --gzip -c-1"
   },
   "dependencies": {
     "@vicons/antd": "^0.12.0",
@@ -36,10 +47,7 @@
     "vfonts": "^0.0.3",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
-    "vue-types": "^4.2.1",
-    "highlight.js": "^11.7.0",
-    "marked": "^4.3.0",
-    "path": "^0.12.7"
+    "vue-types": "^4.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
@@ -89,8 +97,7 @@
     "vue-demi": "^0.13.11",
     "vue-draggable-next": "^2.1.1",
     "vue-eslint-parser": "^9.1.0",
-    "vuedraggable": "^4.1.0",
-    "sass": "^1.62.0"
+    "vuedraggable": "^4.1.0"
   },
   "lint-staged": {
     "*.{vue,js,ts,tsx}": "eslint --fix"
@@ -112,10 +119,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Joword/chatbgi-manager.git"
+    "url": "git+https://github.com/jekip/naive-ui-admin.git"
   },
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jekip/naive-ui-admin/issues"
+  },
+  "homepage": "https://github.com/jekip/naive-ui-admin",
   "engines": {
-    "node": "^14 || >=16"
+    "node": "^12 || >=14"
   }
 }

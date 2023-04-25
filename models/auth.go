@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -29,13 +31,15 @@ type UserMessage struct {
 }
 
 // CheckAuth checks if authentication information exists
-func CheckAuth(username, password string) []UserMessage {
-	// var auth Auth
+func CheckAuth(username string, auth int) bool {
 	var info UserMessage
-	var userArrays []UserMessage
-	err := db.Table("user").Model(&info).Where("username = ?", username).First(&userArrays).Error
+	// var userArrays []UserMessage
+	err := db.Table("user").Where("username = ? AND is_superuser = ?", username, auth).First(&info).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return userArrays
+		fmt.Println("The record can not found.")
 	}
-	return userArrays
+	if info.IsSuperuser > 0 {
+		return true
+	}
+	return false
 }
