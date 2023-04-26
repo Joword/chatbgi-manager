@@ -3,7 +3,9 @@
 		<div class="view-account-header"></div>
 		<div class="view-account-container">
 			<div class="view-account-top">
-				<div class="view-account-top-desc" style="font-size: 25px;">{{ websiteConfig.loginDesc }}</div>
+				<div class="view-account-top-desc" style="font-size: 25px;">
+                    <n-image :src="websiteConfig.logo" width="20" style="margin-right: 10px;" preview-disabled></n-image>{{ websiteConfig.loginDesc }}
+                </div>
 			</div>
 			<div class="view-account-form">
 				<n-form ref="formRef" label-placement="left" size="large" :model="formInline" :rules="rules">
@@ -91,8 +93,6 @@ const handleSubmit = (e) => {
 			const { username, password } = formInline;
 			message.loading('登录中...');
 			loading.value = true;
-
-			// @ts-ignore
 			const params: FormState = {
 				username,
 				password,
@@ -106,7 +106,19 @@ const handleSubmit = (e) => {
 					if (route.name === LOGIN_NAME) {
 						router.replace('/');
 					} else router.replace(toPath);
-				} else {
+				} else if(code === 20005) {
+                    const $dialog = window['$dialog'];
+                    $dialog.info({
+                        title: '授权异常',
+                        content: '该用户未授权可进入ChatBGI-manager',
+                        positiveText: '确定',
+                        //negativeText: '取消',
+                        closable: false,
+                        maskClosable: false,
+                        onPositiveClick: () => {},
+                        onNegativeClick: () => {},
+                    });
+                } else {
 					message.info(msg || '登录失败');
 				}
 			} finally {

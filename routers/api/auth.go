@@ -72,7 +72,7 @@ func Authority(c *gin.Context) {
 	authService := auth_service.Auth{Username: username, Password: password}
 	checks := authService.Check()
 	if !checks {
-		appC.Response(http.StatusProxyAuthRequired, e.ERROR_AUTH, nil)
+		appC.Response(http.StatusNonAuthoritativeInfo, e.ERROR_AUTH_USER, nil)
 		return
 	}
 
